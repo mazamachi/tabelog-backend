@@ -13,13 +13,15 @@
 
 ActiveRecord::Schema.define(version: 20161121164206) do
 
-  create_table "evaluations", id: false, force: true do |t|
+  create_table "evaluations", force: true do |t|
     t.integer  "photo_id",   null: false
     t.integer  "user_id",    null: false
     t.integer  "score",      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "evaluations", ["photo_id", "user_id"], name: "index_evaluations_on_photo_id_and_user_id", unique: true
 
   create_table "photos", force: true do |t|
     t.integer  "shop_id",    null: false
