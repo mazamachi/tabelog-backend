@@ -8,6 +8,12 @@ Bundler.require(*Rails.groups)
 
 module TabelogBackend
   class Application < Rails::Application
+    config.force_ssl = true
+    config.action_dispatch.default_headers = {
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Origin' => 'chrome-extension://kcipljodgjljaichhjgnondefjmgiohg',
+      'Access-Control-Request-Method' => '*'
+    }
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

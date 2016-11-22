@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161121164206) do
+ActiveRecord::Schema.define(version: 20161121203115) do
 
   create_table "evaluations", force: true do |t|
     t.integer  "photo_id",   null: false
@@ -29,6 +29,8 @@ ActiveRecord::Schema.define(version: 20161121164206) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "photos", ["url"], name: "index_photos_on_url", unique: true
 
   create_table "shops", id: false, force: true do |t|
     t.integer  "shop_id",    null: false
