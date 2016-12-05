@@ -22,4 +22,8 @@ test:
 
 production:
   <<: *default
-  database: db/production.sqlite3
+  adapter: mysql
+  database: tabelog_accessibility_db
+  username: <%= ENV["DB_USERNAME"] || 'root' %>
+  password: <%= ENV["DB_PASSWORD"] || '' %>
+  host: 'localhost'

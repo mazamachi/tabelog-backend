@@ -8,7 +8,7 @@ Bundler.require(*Rails.groups)
 
 module TabelogBackend
   class Application < Rails::Application
-    config.force_ssl = true
+    # config.force_ssl = true
     config.action_dispatch.default_headers = {
       'Access-Control-Allow-Credentials' => 'true',
       'Access-Control-Allow-Origin' => 'chrome-extension://jlofhblpbnliikljjcedmkhcbcnggjne',
