@@ -11,7 +11,7 @@ module TabelogBackend
     config.force_ssl = true
     config.action_dispatch.default_headers = {
       'Access-Control-Allow-Credentials' => 'true',
-      'Access-Control-Allow-Origin' => 'chrome-extension://kcipljodgjljaichhjgnondefjmgiohg',
+      'Access-Control-Allow-Origin' => 'chrome-extension://jlofhblpbnliikljjcedmkhcbcnggjne',
       'Access-Control-Request-Method' => '*'
     }
     # Settings in config/environments/* take precedence over those specified here.
