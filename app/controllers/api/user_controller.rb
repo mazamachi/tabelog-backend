@@ -6,10 +6,10 @@ class Api::UserController < ApplicationController
     if user.nil?
       render json: {
         status: "user_not_found"
-      }
+      }, status: 400
     else
       render json: {
-        user_id: user.id
+        userId: user.id
       }
     end
   end
