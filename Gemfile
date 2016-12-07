@@ -40,3 +40,5 @@ gem 'capistrano-rbenv', github: "capistrano/rbenv"
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+gem 'dotenv-rails'
