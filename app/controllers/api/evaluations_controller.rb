@@ -25,7 +25,7 @@ class Api::EvaluationsController < ApplicationController
 
   private
   def permitted_params
-    params.permit(shop: [:shop_id, :name, :latitude, :longitude], photo: :url, evaluation: [:user_id, :score])
+    params.permit(shop: [:shop_id, :name, :latitude, :longitude], photo: [:url, :id], evaluation: [:user_id, :score])
   end
 
 end
