@@ -22,7 +22,7 @@ test:
 
 production:
   <<: *default
-  adapter: mysql
+  adapter: mysql2
   database: tabelog_accessibility_db
   username: <%= ENV["DB_USERNAME"] || 'root' %>
   password: <%= ENV["DB_PASSWORD"] || '' %>
