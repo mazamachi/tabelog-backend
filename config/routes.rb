@@ -8,6 +8,10 @@ Rails.application.routes.draw do
 
     resource :evaluation, only: [:create, :update]
   end
+
+  resources :users, only: [:show, :index] do
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
