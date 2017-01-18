@@ -39,8 +39,7 @@ class Api::ShopsController < ApplicationController
   end
 
   def init_permitted_params
-    @params ||= JSON.parse(request.body.read, {:symbolize_names => true})
-    @params.permit(:user_id, photos: [:url, :id])
+    JSON.parse(request.body.read, {:symbolize_names => true})
   end
 
 end
