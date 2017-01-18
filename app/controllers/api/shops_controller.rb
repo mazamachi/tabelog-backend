@@ -18,6 +18,9 @@ class Api::ShopsController < ApplicationController
     evaluations = Evaluation.find_by_sql([sql, user_id: p_params[:user_id], photo_ids: p_params[:photos].map{|h| h["id"]}])
     evaluated_photo_ids = evaluations.map(&:photo_id)
 
+    # 未保存のShopを作成
+    shop_params = p_params[:shop]
+    Shop.find_or_create_by(shop_id: shop_params[:shop_id], name: shop_params[:name], latitude: shop_params[:latitude], longitude: shop_params[:longitude])
     # 未保存のPhotoを作成
     existing_photo_ids = Photo.select("id").where(shop_id: params[:shop_id].to_i).all.map(&:id)
     p_params[:photos].select{|hash| !existing_photo_ids.include?(hash[:id])}.each do |hash|
