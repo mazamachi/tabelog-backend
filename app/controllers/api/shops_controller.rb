@@ -10,12 +10,13 @@ class Api::ShopsController < ApplicationController
     p_params = init_permitted_params
 
     # 登録済みのスコアを取得
-    sql = <<-SQL
-      select * from evaluations
-      inner join photos on photos.id = evaluations.photo_id
-      where evaluations.user_id = :user_id and photos.id in (:photo_ids)
-    SQL
-    evaluations = Evaluation.find_by_sql([sql, user_id: p_params[:user_id], photo_ids: p_params[:photos].map{|h| h["id"]}])
+    # sql = <<-SQL
+    #   select * from evaluations
+    #   inner join photos on photos.id = evaluations.photo_id
+    #   where evaluations.user_id = :user_id and photos.id in (:photo_ids)
+    # SQL
+    # evaluations = Evaluation.find_by_sql([sql, user_id: p_params[:user_id], photo_ids: p_params[:photos].map{|h| h["id"]}])
+    Evaluation.joins(:photo).where(evaluations: {user_id: 1}, photos:{id:[48620720]}).map
     evaluated_photo_ids = evaluations.map(&:photo_id)
 
     # 未保存のShopを作成
@@ -28,7 +29,8 @@ class Api::ShopsController < ApplicationController
     end
     # 未評価の写真を初期化
     p_params[:photos].select{|hash| !evaluated_photo_ids.include?(hash[:id])}.each do |hash|
-      Evaluation.create(photo_id: hash[:id].to_i, user_id: p_params[:user_id].to_i, score: 0)
+      evl = Evaluation.find_by(photo_id: hash[:id].to_i, user_id: p_params[:user_id].to_i)
+
     end
 
     render json: evaluations.map{|e| {id: e.photo_id, score: e.score}}
