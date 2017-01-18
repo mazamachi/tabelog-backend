@@ -6,9 +6,40 @@ class Api::ShopsController < ApplicationController
     render json: evaluations.map{|e| {id: e.photo_id, score: e.score}}
   end
 
+  def init
+    p_params = init_permitted_params
+
+    # 登録済みのスコアを取得
+    sql = <<-SQL
+      select * from evaluations
+      inner join photos on photos.id = evaluations.photo_id
+      where evaluations.user_id = :user_id and photos.id in (:photo_ids)
+    SQL
+    evaluations = Evaluation.find_by_sql([sql, user_id: p_params[:user_id], photo_ids: p_params[:photos].map{|h| h["id"]}])
+    evaluated_photo_ids = evaluations.map(&:photo_id)
+
+    # 未保存のPhotoを作成
+    existing_photo_ids = Photo.select("id").where(shop_id: params[:shop_id].to_i).all.map(&:id)
+    p_params[:photos].select{|hash| !existing_photo_ids.include?(hash[:id])}.each do |hash|
+      Photo.create(shop_id: params[:shop_id].to_i, id: hash[:id].to_i, url: hash[:url])
+    end
+    # 未評価の写真を初期化
+    p_params[:photos].select{|hash| !evaluated_photo_ids.include?(hash[:id])}.each do |hash|
+      Evaluation.create(photo_id: hash[:id].to_i, user_id: p_params[:user_id].to_i, score: 0)
+    end
+
+    render json: evaluations.map{|e| {id: e.photo_id, score: e.score}}
+  end
+
+  private
+
   private
   def permitted_params
     params.permit(:user_id)
+  end
+
+  def init_permitted_params
+    params.permit(:user_id, photos: [:url, :id])
   end
 
 end

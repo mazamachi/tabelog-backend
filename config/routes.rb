@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   namespace :api, { format: 'json' } do
     resources :shops, only: [:show] do
+      post 'init'
     end
     namespace :user do
       post 'login'
