@@ -4,6 +4,7 @@ class ShopsController < ApplicationController
     shop_id = params[:id]
     @user = User.find(user_id)
     @shop = Shop.find(shop_id)
-    p @evaluations = Evaluation.where(user_id: user_id).includes(:photo).where('photos.shop_id = ?', shop_id).references(:photos)
+    @useful  = Evaluation.where(user_id: user_id, score:  1).includes(:photo).where('photos.shop_id = ?', shop_id).references(:photos)
+    @useless = Evaluation.where(user_id: user_id, score: -1).includes(:photo).where('photos.shop_id = ?', shop_id).references(:photos)
   end
 end
