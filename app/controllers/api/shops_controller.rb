@@ -16,12 +16,14 @@ class Api::ShopsController < ApplicationController
     #   where evaluations.user_id = :user_id and photos.id in (:photo_ids)
     # SQL
     # evaluations = Evaluation.find_by_sql([sql, user_id: p_params[:user_id], photo_ids: p_params[:photos].map{|h| h["id"]}])
-    evaluations = Evaluation.joins(:photo).where(evaluations: {user_id: 1}, photos:{id:[48620720]})
+    evaluations = Evaluation.joins(:photo).where(evaluations: {user_id: p_params[:user_id]}, photos:{id: p_params[:photos].map{|h| h[:id]}})
     evaluated_photo_ids = evaluations.map(&:photo_id)
 
     # 未保存のShopを作成
     shop_params = p_params[:shop]
-    Shop.find_or_create_by(shop_id: shop_params[:shop_id], name: shop_params[:name], latitude: shop_params[:latitude], longitude: shop_params[:longitude])
+    unless Shop.find_by(shop_id: shop_params[:shop_id])
+      Shop.create(shop_id: shop_params[:shop_id], name: shop_params[:name], latitude: shop_params[:latitude], longitude: shop_params[:longitude])
+    end
     # 未保存のPhotoを作成
     existing_photo_ids = Photo.select("id").where(shop_id: params[:shop_id].to_i).all.map(&:id)
     p_params[:photos].select{|hash| !existing_photo_ids.include?(hash[:id])}.each do |hash|
@@ -29,8 +31,7 @@ class Api::ShopsController < ApplicationController
     end
     # 未評価の写真を初期化
     p_params[:photos].select{|hash| !evaluated_photo_ids.include?(hash[:id])}.each do |hash|
-      evl = Evaluation.find_by(photo_id: hash[:id].to_i, user_id: p_params[:user_id].to_i)
-
+      evl = Evaluation.create(photo_id: hash[:id].to_i, user_id: p_params[:user_id].to_i, score: 0)
     end
 
     render json: evaluations.map{|e| {id: e.photo_id, score: e.score}}
