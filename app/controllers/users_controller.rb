@@ -6,8 +6,8 @@ class UsersController < ApplicationController
   def show
     id = params[:id]
     @user = User.find(id)
-    row_sql = <<-SQL
-    select shops.name, shops.shop_id from shops
+    sql = <<-SQL
+      select * from shops
       where shops.shop_id in
       (
         select photos.shop_id from users
@@ -16,9 +16,6 @@ class UsersController < ApplicationController
         where users.id = :user_id
       )
     SQL
-    args = [row_sql, user_id: @user.id]
-    sql = ActiveRecord::Base.send(:sanitize_sql_array, args)
-    @shops = ActiveRecord::Base.connection.select_all(sql)
-    p @shops[0]
+    p @shops = Shop.find_by_sql([sql, user_id: @user.id])
   end
 end

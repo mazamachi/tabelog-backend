@@ -2,4 +2,4 @@
 %ul
   - @shops.each do |shop|
     - p shop
-    %li= link_to shop["name"], {action: :show, controller: :user_shop, id: shop["shop_id"]}
+    %li= link_to shop.name, [@user, shop], {id: shop["shop_id"], user_id: @user.id}

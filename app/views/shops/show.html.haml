@@ -1,0 +1,7 @@
+%h1 #{@shop.name} by #{@user.name}
+
+%h2 useful
+- @evaluations.each do |evl|
+  .photo
+    = image_tag evl.photo.url
+%h2 useless
