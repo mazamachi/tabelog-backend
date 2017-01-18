@@ -25,7 +25,7 @@ class Api::PhotosController < ApplicationController
 
   private
   def permitted_params
-    params.permit(photos: [:url, :id], :user_id)
+    params.permit(:user_id, photos: [:url, :id])
   end
 
 end
