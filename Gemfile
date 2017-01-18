@@ -44,3 +44,6 @@ gem 'capistrano-rbenv', github: "capistrano/rbenv"
 gem 'dotenv-rails'
 
 gem 'foreigner'
+
+gem 'haml-rails'
+gem 'erb2haml'
