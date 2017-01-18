@@ -16,7 +16,7 @@ class Api::ShopsController < ApplicationController
     #   where evaluations.user_id = :user_id and photos.id in (:photo_ids)
     # SQL
     # evaluations = Evaluation.find_by_sql([sql, user_id: p_params[:user_id], photo_ids: p_params[:photos].map{|h| h["id"]}])
-    Evaluation.joins(:photo).where(evaluations: {user_id: 1}, photos:{id:[48620720]}).map
+    evaluatons = Evaluation.joins(:photo).where(evaluations: {user_id: 1}, photos:{id:[48620720]})
     evaluated_photo_ids = evaluations.map(&:photo_id)
 
     # 未保存のShopを作成
