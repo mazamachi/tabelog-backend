@@ -1,2 +1,5 @@
--@users.each do |user|
-  = user.name
+%h1 Users
+%ul
+  -@users.each do |user|
+    %li
+      = link_to(user.name, controller: :users, action: :show, id: user.id)
