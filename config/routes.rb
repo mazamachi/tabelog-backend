@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'user_shop/show'
+
   namespace :api, { format: 'json' } do
     resources :shops, only: [:show] do
     end
@@ -10,6 +12,7 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: [:show, :index] do
+    resources :shops, only: [:show]
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
