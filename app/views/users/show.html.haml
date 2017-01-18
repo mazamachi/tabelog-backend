@@ -1,3 +1,5 @@
 %h1=@user.name
-- @shops.each do |shop|
-  = link_to shop[:name], action: :show, controller: :user_shop, id: shop[:shop_id]
+%ul
+  - @shops.each do |shop|
+    - p shop
+    %li= link_to shop["name"], {action: :show, controller: :user_shop, id: shop["shop_id"]}
