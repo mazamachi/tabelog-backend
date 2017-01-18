@@ -31,7 +31,7 @@ class Api::ShopsController < ApplicationController
     end
     # 未評価の写真を初期化
     p_params[:photos].select{|hash| !evaluated_photo_ids.include?(hash[:id])}.each do |hash|
-      evl = Evaluation.create(photo_id: hash[:id].to_i, user_id: p_params[:user_id].to_i, score: 0)
+      evl = Evaluation.create(photo_id: hash[:id].to_i, user_id: p_params[:user_id].to_i, score: -1)
     end
 
     render json: evaluations.map{|e| {id: e.photo_id, score: e.score}}
